@@ -50,5 +50,29 @@ controller.deleteBoss = async (req, res) => {
   }
 }
 
+// ----- Save Tasa -----
+controller.regTasa = async (req, res) => {
+  try {
+    const { tasa } = req.body
+
+    data = await Boss.regTasaIva(tasa)
+    res.status(data.code).json(data)
+    
+  } catch (error) {
+    res.status(500).json({ error: "Error al realizar la consulta" })
+  }
+}
+
+// ----- Save Tasa -----
+controller.getTasa = async (req, res) => {
+  try {
+    data = await Boss.getTasaIva()
+    res.status(data.code).json(data)
+    
+  } catch (error) {
+    res.status(500).json({ error: "Error al realizar la consulta" })
+  }
+}
+
 
 module.exports = controller

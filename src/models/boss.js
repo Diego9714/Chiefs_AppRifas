@@ -279,9 +279,92 @@ const getAdmins = async () => {
   }
 }
 
+// ----- Save Tasa Iva -----
+const regTasaIva = async (tasa) => {
+  try {
+    let msg = {
+      status: false,
+      message: "Tasa not registered",
+      code: 500
+    }
+    
+    const connection = await pool.getConnection()
+
+    const fechaActual = new Date();
+    const date_created = fechaActual.toISOString().split('T')[0];
+
+    let sql = `INSERT INTO tasaIva (tasa , date_created) VALUES (?, ?) `
+    const [result] = await connection.execute(sql,[tasa , date_created])
+
+    if (result.affectedRows > 0) {
+      msg = {
+        status: true,
+        message: "Tasa Iva registered succesfully",
+        code: 200
+      }
+    }
+
+    connection.release()
+
+    return msg
+
+  } catch (err) {
+    console.log(err)
+    let msg = {
+      status: false,
+      message: "Something went wrong...",
+      code: 500,
+      error: err,
+    }
+    return msg
+  }
+}
+
+// ----- Get Tasa Iva -----
+const getTasaIva = async () => {
+  try {
+    let msg = {
+      status: false,
+      message: "Tasa not found",
+      code: 404
+    }
+
+    const connection = await pool.getConnection()
+
+    let sql = `SELECT tasa, date_created
+    FROM tasaIva
+    ORDER BY date_created DESC
+    LIMIT 1;;`
+    let [tasa] = await connection.execute(sql)
+
+    if (tasa.length > 0) {
+      msg = {
+        status: true,
+        message: "tasa found",
+        data: tasa,
+        code: 200
+      }
+    }
+
+    connection.release()
+
+    return msg
+  } catch (err) {
+    let msg = {
+      status: false,
+      message: "Something went wrong...",
+      code: 500,
+      error: err,
+    }
+    return msg
+  }
+}
+
 module.exports = {
   getBoss,
   regBoss,
+  regTasaIva,
+  getTasaIva,
   editBoss,
   deleteBoss,
   getAdmins

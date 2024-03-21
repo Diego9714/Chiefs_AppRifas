@@ -18,11 +18,14 @@ const KEY                       = process.env.KEY
 const EDIT_BOSS                 = process.env.EDIT_BOSS
 const DELETE_BOSS               = process.env.DELETE_BOSS
 
+const REG_IVA               = process.env.REG_IVA
+const IVA               = process.env.IVA
+
 module.exports = {
 	// Server
   PORT,
   // Database
   PG_HOST, PG_USER, PG_PASS, PG_NAME,
   // Boss
-  REGISTER_BOSS, KEY , EDIT_BOSS , DELETE_BOSS, GET_ADMINS
- }
+  REGISTER_BOSS, KEY , EDIT_BOSS , DELETE_BOSS, GET_ADMINS, REG_IVA , IVA
+}
